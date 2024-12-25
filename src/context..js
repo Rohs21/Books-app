@@ -48,11 +48,21 @@ const AppProvider = ({children}) => {
         }
     }, [searchTerm]);
 
+    useEffect(() => {
+        fetchBooks();
+    }, [searchTerm, fetchBooks]);
 
+    return (
+        <AppContext.Provider value = {{
+            loading, books, setSearchTerm, resultTitle, setResultTitle,
+        }}>
+            {children}
+        </AppContext.Provider>
+    )
+}
 
+export const useGlobalContext = () => {
+    return useContext(AppContext);
+}
 
-
-
-
-
-
+export {AppContext, AppProvider};
