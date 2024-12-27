@@ -17,9 +17,9 @@ const Book = (book) => {
             </div>
         </Link>
     ) : (
-      <div className="book-not-available fw-7 fs-18">
-        <span>Book is not available</span>
-      </div>
+        <div className="book-not-available fw-7 fs-18">
+          <span>Book is not available</span>
+        </div>
     )}
 
         <div className='book-item-info-item author fs-15'>
