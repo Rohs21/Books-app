@@ -1,28 +1,122 @@
-.about{
-    padding: 3rem 0;
-}
-.about-content{
-    gap: 4rem;
-}
-.about-title{
-    margin: 1rem 0;
-}
-.about-img img{
-    max-width: 520px;
-}
-.about-text p{
-    margin: 1.8rem 0;
-    opacity: 0.8;
+.about {
+  padding: 8rem 0;
+  background-color: var(--white-color);
+  position: relative;
+  overflow: hidden;
 }
 
-@media screen and (min-width: 800px){
-    .about-content{
-        grid-template-columns: repeat(2, 1fr);
-    }
-    .about-title{
-        margin-top: 0;
-    }
-    .about-img img{
-        margin-left: 0;
-    }
+.about::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(141, 39, 174, 0.05) 0%, transparent 70%);
+  z-index: 0;
+  animation: rotate 30s linear infinite;
+}
+
+@keyframes rotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.about-content {
+  gap: 6rem;
+  position: relative;
+  z-index: 1;
+}
+
+.about-title {
+  margin: 1rem 0;
+  font-size: 3.5rem;
+  color: var(--purple-color);
+  position: relative;
+  display: inline-block;
+}
+
+.about-title::after {
+  content: '';
+  position: absolute;
+  bottom: -10px;
+  left: 0;
+  width: 60px;
+  height: 4px;
+  background: var(--pink-color);
+  border-radius: 2px;
+  transform: scaleX(0);
+  transform-origin: left;
+  animation: slideIn 0.6s ease forwards;
+}
+
+@keyframes slideIn {
+  to {
+    transform: scaleX(1);
+  }
+}
+
+.about-img {
+  position: relative;
+  perspective: 1000px;
+}
+
+.about-img img {
+  max-width: 520px;
+  border-radius: 15px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.6s ease;
+  transform-style: preserve-3d;
+}
+
+.about-img img:hover {
+  transform: rotateY(5deg) rotateX(5deg);
+  box-shadow: 20px 20px 60px rgba(0, 0, 0, 0.1);
+}
+
+.about-text {
+  position: relative;
+}
+
+.about-text p {
+  margin: 2rem 0;
+  opacity: 0;
+  transform: translateY(20px);
+  animation: fadeInUp 0.6s ease forwards;
+  line-height: 1.9;
+  color: var(--light-black-color);
+}
+
+@keyframes fadeInUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 768px) {
+  .about-content {
+    gap: 4rem;
+    flex-direction: column;
+  }
+  
+  .about-img img {
+    width: 100%;
+    max-width: 400px;
+    margin: 0 auto;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .about::before,
+  .about-title::after,
+  .about-img img,
+  .about-text p {
+    animation: none;
+    transition: none;
+  }
 }

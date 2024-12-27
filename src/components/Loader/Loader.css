@@ -1,6 +1,33 @@
-.loader{
+.loader {
     padding: 4rem 0;
-}
-.loader img{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 40vh;
+  }
+  
+  .loader img {
     width: 120px;
-}
+    animation: pulse 1.5s ease-in-out infinite;
+  }
+  
+  @keyframes pulse {
+    0% {
+      transform: scale(1);
+      opacity: 1;
+    }
+    50% {
+      transform: scale(0.9);
+      opacity: 0.7;
+    }
+    100% {
+      transform: scale(1);
+      opacity: 1;
+    }
+  }
+  
+  @media (prefers-reduced-motion: reduce) {
+    .loader img {
+      animation: none;
+    }
+  }
