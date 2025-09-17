@@ -7,10 +7,12 @@ import { useNavigate } from 'react-router-dom';
 
 const URL = "https://openlibrary.org/works/";
 
+
 const BookDetails = () => {
   const { id } = useParams();
   const [loading, setLoading] = useState(false);
   const [book, setBook] = useState(null);
+  const [relatedBooks, setRelatedBooks] = useState([]);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -19,8 +21,6 @@ const BookDetails = () => {
       try {
         const response = await fetch(`${URL}${id}.json`);
         const data = await response.json();
-        console.log(data);
-
         if (data) {
           const { description, title, covers, subject_places, subject_times, subjects } = data;
           const newBook = {
@@ -29,16 +29,28 @@ const BookDetails = () => {
             cover_img: covers ? `https://covers.openlibrary.org/b/id/${covers[0]}-L.jpg` : coverImg,
             subject_places: subject_places ? subject_places.join(", ") : "No subject places found",
             subject_times: subject_times ? subject_times.join(", ") : "No subject times found",
-            subjects: subjects ? subjects.join(", ") : "No subjects found"
+            subjects: subjects ? subjects : []
           };
           setBook(newBook);
+          // Fetch related books by first subject if available
+          if (subjects && subjects.length > 0) {
+            fetch(`https://openlibrary.org/subjects/${encodeURIComponent(subjects[0].toLowerCase().replace(/ /g, '_'))}.json?limit=10`)
+              .then(res => res.json())
+              .then(rel => {
+                setRelatedBooks(rel.works || []);
+              });
+          } else {
+            setRelatedBooks([]);
+          }
         } else {
           setBook(null);
+          setRelatedBooks([]);
         }
         setLoading(false);
       } catch (error) {
         console.log(error);
         setLoading(false);
+        setRelatedBooks([]);
       }
     }
     getBookDetails();
@@ -73,12 +85,10 @@ const BookDetails = () => {
             <div className='book-header'>
               <h1 className='book-title'>{book?.title}</h1>
             </div>
-            
             <div className='book-description-card'>
               <h3 className='section-title'>Description</h3>
               <p className='book-description'>{book?.description}</p>
             </div>
-
             <div className='book-metadata'>
               <div className='metadata-item'>
                 <div className='metadata-header'>
@@ -87,7 +97,6 @@ const BookDetails = () => {
                 </div>
                 <p className='metadata-value'>{book?.subject_places}</p>
               </div>
-
               <div className='metadata-item'>
                 <div className='metadata-header'>
                   <FaClock className='metadata-icon' />
@@ -95,16 +104,34 @@ const BookDetails = () => {
                 </div>
                 <p className='metadata-value'>{book?.subject_times}</p>
               </div>
-
               <div className='metadata-item'>
                 <div className='metadata-header'>
                   <FaTag className='metadata-icon' />
                   <span className='metadata-label'>Subjects</span>
                 </div>
-                <p className='metadata-value'>{book?.subjects}</p>
+                <p className='metadata-value'>{book?.subjects && book.subjects.join(', ')}</p>
               </div>
             </div>
           </div>
+        </div>
+
+        {/* Recommended Section */}
+        <div style={{marginTop: '3rem'}}>
+          <h2 style={{fontWeight:700, fontSize:'1.5rem', marginBottom:'1.5rem'}}>Recommended / More Like This</h2>
+          {relatedBooks.length > 0 ? (
+            <div className="booklist-content grid">
+              {relatedBooks.map((item, idx) => (
+                <div key={item.key || idx} className="booklist-item">
+                  <a href={`/book/${item.key.replace('/works/', '')}`} style={{textDecoration:'none', color:'inherit'}}>
+                    <img src={item.cover_id ? `https://covers.openlibrary.org/b/id/${item.cover_id}-L.jpg` : coverImg} alt={item.title} style={{width:'120px',height:'180px',objectFit:'cover',borderRadius:'8px',boxShadow:'0 2px 8px rgba(0,0,0,0.08)'}} />
+                    <div style={{marginTop:'0.5rem',fontWeight:600}}>{item.title}</div>
+                  </a>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <div>No recommendations found.</div>
+          )}
         </div>
       </div>
 
@@ -282,7 +309,7 @@ const BookDetails = () => {
         }
 
         .metadata-value {
-          font-size: 0.875rem;
+          font-size: 1.5rem;
           line-height: 1.6;
           color: #64748b;
           margin: 0;

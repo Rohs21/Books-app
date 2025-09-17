@@ -8,7 +8,7 @@ import "./Booklist.css";
 //https://covers.openlibrary.org/b/id/240727-S.jpg
 
 const BookList = () => {
-  const {books, loading, resultTitle} = useGlobalContext();
+  const {books, loading, resultTitle, isSearchFocused} = useGlobalContext();
   const booksWithCovers = books.map((singleBook) => {
     return {
       ...singleBook,
@@ -21,7 +21,7 @@ const BookList = () => {
   if(loading) return <Loading />;
 
   return (
-    <section className='booklist'>
+    <section className={`booklist${isSearchFocused ? ' booklist-focused' : ''}`}>
       <div className='container'>
         <div className='section-title'>
           <h2>{resultTitle}</h2>

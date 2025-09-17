@@ -3,6 +3,7 @@
   max-width: 1200px;
   margin: 0 auto;
   animation: fadeIn 0.8s ease-out;
+  font-size: 1.25rem; /* Increased base font size */
 }
 
 .back-btn {
@@ -12,6 +13,7 @@
   padding: 1rem 2rem;
   color: var(--black-color);
   font-weight: 600;
+  font-size: 1.4rem; /* Increased font size */
   background-color: var(--white-color);
   border-radius: 30px;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
@@ -83,6 +85,7 @@
   box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
   position: relative;
   overflow: hidden;
+  font-size: 1.3rem; /* Increased font size for info section */
 }
 
 .book-details-info::before {
@@ -99,6 +102,7 @@
   margin-bottom: 2rem;
   animation: fadeInUp 0.5s ease-out forwards;
   opacity: 0;
+  font-size: 1.4rem; /* Increased font size for items */
 }
 
 .book-details-item:nth-child(2) {
@@ -116,6 +120,29 @@
 .book-details-item.description {
   line-height: 1.8;
   color: var(--light-black-color);
+  font-size: 1.35rem; /* Slightly larger font for description */
+}
+
+/* If you have headings in your book details, increase their size too */
+.book-details h1,
+.book-details-item h1 {
+  font-size: 2.8rem; /* Very large for main title */
+}
+
+.book-details h2,
+.book-details-item h2 {
+  font-size: 2.2rem; /* Large for subtitles */
+}
+
+.book-details h3,
+.book-details-item h3 {
+  font-size: 1.8rem; /* Medium-large for section headings */
+}
+
+/* Labels or field names */
+.book-details-item strong,
+.book-details-item b {
+  font-size: 1.5rem; /* Larger for emphasized text */
 }
 
 @keyframes fadeIn {
@@ -159,15 +186,69 @@
     position: sticky;
     top: 2rem;
   }
+
+  /* Increase font sizes even more on larger screens */
+  .book-details {
+    font-size: 1.35rem;
+  }
+
+  .back-btn {
+    font-size: 1.5rem;
+  }
+
+  .book-details-info {
+    font-size: 1.4rem;
+  }
+
+  .book-details-item {
+    font-size: 1.5rem;
+  }
+
+  .book-details-item.description {
+    font-size: 1.45rem;
+  }
 }
 
 @media screen and (min-width: 1024px) {
   .book-details {
     padding: 10rem 2rem;
+    font-size: 1.4rem; /* Even larger on desktop */
   }
 
   .book-details-content {
     gap: 6rem;
+  }
+
+  .back-btn {
+    font-size: 1.6rem;
+  }
+
+  .book-details-info {
+    font-size: 1.5rem;
+  }
+
+  .book-details-item {
+    font-size: 1.6rem;
+  }
+
+  .book-details-item.description {
+    font-size: 1.55rem;
+  }
+
+  /* Desktop heading sizes */
+  .book-details h1,
+  .book-details-item h1 {
+    font-size: 3.2rem;
+  }
+
+  .book-details h2,
+  .book-details-item h2 {
+    font-size: 2.5rem;
+  }
+
+  .book-details h3,
+  .book-details-item h3 {
+    font-size: 2rem;
   }
 }
 

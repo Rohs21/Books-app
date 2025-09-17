@@ -1,10 +1,35 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import "./About.css";
 import aboutImg from "../../images/about-img.jpg";
 
 const About = () => {
+  const navigate = useNavigate();
   return (
     <section className='about'>
+      <button
+  style={{
+    margin: '2rem 0 1.5rem 3rem', // Increased left margin from 0 to 3rem
+    padding: '1rem 2rem', // Increased padding for bigger size
+    background: '#4a5568', // Professional dark gray
+    color: '#ffffff', // Clean white text
+    border: 'none',
+    borderRadius: '8px', // Slightly larger border radius
+    fontWeight: 600,
+    fontSize: '1.1rem', // Slightly larger font
+    cursor: 'pointer',
+    boxShadow: '0 3px 12px rgba(0,0,0,0.15)', // Enhanced shadow for depth
+    transition: 'all 0.2s ease', // Smooth hover transition
+    '&:hover': {
+      background: '#2d3748', // Darker gray on hover
+      transform: 'translateY(-1px)',
+      boxShadow: '0 4px 16px rgba(0,0,0,0.2)'
+    }
+  }}
+  onClick={() => navigate('/book')}
+>
+  ← Home
+</button>
       <div className='container'>
         <div className='section-title'>
           <h2>About BookHub</h2>
@@ -60,17 +85,6 @@ const About = () => {
           <div className='services-section'>
             <h3 className='section-heading'>Our Core Services</h3>
             <div className='services-grid'>
-              <div className='service-card'>
-                <div className='service-icon'>
-                  <svg width="40" height="40" viewBox="0 0 24 24" fill="none">
-                    <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
-                    <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" stroke="currentColor" strokeWidth="2"/>
-                  </svg>
-                </div>
-                <h4>Digital Catalog Management</h4>
-                <p>Comprehensive book catalog with advanced metadata, search capabilities, and real-time inventory management.</p>
-              </div>
-              
               <div className='service-card'>
                 <div className='service-icon'>
                   <svg width="40" height="40" viewBox="0 0 24 24" fill="none">
