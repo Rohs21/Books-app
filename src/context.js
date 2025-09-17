@@ -5,6 +5,7 @@ const AppContext = React.createContext();
 
 const AppProvider = ({children}) => {
     const [searchTerm, setSearchTerm] = useState("the lost world");
+    const [isSearchFocused, setIsSearchFocused] = useState(false);
     const [books, setBooks] = useState([]);
     const [loading, setLoading] = useState(true);
     const [resultTitle, setResultTitle] = useState("");
@@ -55,6 +56,7 @@ const AppProvider = ({children}) => {
     return (
         <AppContext.Provider value = {{
             loading, books, setSearchTerm, resultTitle, setResultTitle,
+            isSearchFocused, setIsSearchFocused
         }}>
             {children}
         </AppContext.Provider>

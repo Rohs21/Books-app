@@ -12,6 +12,7 @@
 }
 
 .search-form-elem {
+  margin-top:20px;
   display: flex;
   align-items: center;
   background: white;
