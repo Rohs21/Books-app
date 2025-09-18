@@ -19,21 +19,22 @@
   padding: 6rem 3rem; /* more padding */
   position: relative;
   background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+  overflow: hidden; /* ✅ keeps the circle inside */
 }
 
-/* Decorative elements */
-.header-content::before {
-  content: '';
-  position: absolute;
-  top: -50%;
-  right: -20%;
-  width: 700px; /* bigger circle */
-  height: 700px;
-  background: #3b82f6;
+.header-content:before {
   border-radius: 50%;
-  opacity: 0.05;
+  content: "";
+  position: absolute;
   z-index: 1;
+  background: #3b82f6;
+  height: 700px;
+  width: 700px;
+  opacity: .05;
+  right: -20%;
+  top: -50%;
 }
+
 
 .header-content::after {
   content: '';

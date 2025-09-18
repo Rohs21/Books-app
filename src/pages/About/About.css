@@ -15,6 +15,31 @@
   --text-secondary: #374151;
   --text-muted: #6b7280;
 }
+.grey-btn {
+  display: inline-block;
+  margin-top: 10px; /* ✅ margin top */
+  padding: 10px 22px;
+  border-radius: 8px;
+  background: #e5e7eb; /* light grey */
+  color: #111827; /* dark grey text */
+  font-weight: 600;
+  font-size: 16px;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  border: 1px solid #d1d5db; /* subtle border */
+}
+
+.grey-btn:hover {
+  background: #d1d5db; /* darker grey on hover */
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+}
+
+.grey-btn:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
 
 .about {
   padding: 6rem 0;

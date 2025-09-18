@@ -103,8 +103,8 @@ const About = () => {
                     <rect x="8" y="2" width="8" height="4" rx="1" ry="1" stroke="currentColor" strokeWidth="2"/>
                   </svg>
                 </div>
-                <h4>Analytics Dashboard</h4>
-                <p>Real-time analytics and reporting tools providing insights into user behavior and content performance.</p>
+                <h4>Excellence Output</h4>
+                <p>Maintaining the highest standards in code quality, user experience, and customer support.</p>
               </div>
               
               <div className='service-card'>
@@ -139,10 +139,6 @@ const About = () => {
                 <h4>Accessibility</h4>
                 <p>Making knowledge accessible to everyone through intuitive design and comprehensive accessibility features.</p>
               </div>
-              <div className='value-item'>
-                <h4>Excellence</h4>
-                <p>Maintaining the highest standards in code quality, user experience, and customer support.</p>
-              </div>
             </div>
           </div>
           
@@ -155,18 +151,23 @@ const About = () => {
               </div>
               <div className='creator-info'>
                 <h4>Rohan Singh</h4>
-                <p className='creator-role'>Founder & Chief Technology Officer</p>
+                <p className='creator-role'>Software Developer</p>
                 <p className='creator-bio'>
-                  With over 8 years of experience in software engineering and digital product development, 
-                  Rohan leads BookHub's technical vision and strategic growth. He holds a Master's degree 
-                  in Computer Science and has previously worked with leading technology companies in building 
-                  scalable web applications and data systems.
+                  With years of experience in software engineering and digital product development, Rohan drives BookHub's technical vision and strategic growth, having worked with leading technology companies to build scalable web applications and data systems.
                 </p>
                 <div className='creator-credentials'>
                   <span>B.E. Computer Science</span>
                   <span>Software Developer</span>
                   <span>Open-Source Contributer</span>
                 </div>
+                <a 
+                  href="https://github.com/Rohs21" 
+                  className="grey-btn" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                >
+                  Visit Rohan's GitHub
+                </a>
               </div>
             </div>
           </div>
