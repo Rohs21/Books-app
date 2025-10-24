@@ -1,12 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import Loading from "../Loader/Loader";
 import coverImg from "../../images/cover_not_found.jpg";
 import { FaArrowLeft, FaMapMarkerAlt, FaClock, FaTag } from "react-icons/fa";
-import { useNavigate } from 'react-router-dom';
 
 const URL = "https://openlibrary.org/works/";
-
 
 const BookDetails = () => {
   const { id } = useParams();
@@ -24,21 +22,26 @@ const BookDetails = () => {
         if (data) {
           const { description, title, covers, subject_places, subject_times, subjects } = data;
           const newBook = {
-            description: description ? description.value : "No description found",
+            description: description ? description.value || description : "No description found",
             title: title,
-            cover_img: covers ? `https://covers.openlibrary.org/b/id/${covers[0]}-L.jpg` : coverImg,
+            cover_img: covers
+              ? `https://covers.openlibrary.org/b/id/${covers[0]}-L.jpg`
+              : coverImg,
             subject_places: subject_places ? subject_places.join(", ") : "No subject places found",
             subject_times: subject_times ? subject_times.join(", ") : "No subject times found",
-            subjects: subjects ? subjects : []
+            subjects: subjects || [],
           };
           setBook(newBook);
-          // Fetch related books by first subject if available
+
+          // Fetch related books
           if (subjects && subjects.length > 0) {
-            fetch(`https://openlibrary.org/subjects/${encodeURIComponent(subjects[0].toLowerCase().replace(/ /g, '_'))}.json?limit=10`)
-              .then(res => res.json())
-              .then(rel => {
-                setRelatedBooks(rel.works || []);
-              });
+            fetch(
+              `https://openlibrary.org/subjects/${encodeURIComponent(
+                subjects[0].toLowerCase().replace(/ /g, "_")
+              )}.json?limit=10`
+            )
+              .then((res) => res.json())
+              .then((rel) => setRelatedBooks(rel.works || []));
           } else {
             setRelatedBooks([]);
           }
@@ -48,7 +51,7 @@ const BookDetails = () => {
         }
         setLoading(false);
       } catch (error) {
-        console.log(error);
+        console.error(error);
         setLoading(false);
         setRelatedBooks([]);
       }
@@ -61,80 +64,88 @@ const BookDetails = () => {
   return (
     <div className="book-details-modern">
       <div className="container-modern">
-        <button 
-          type='button' 
-          className='back-btn-modern' 
-          onClick={() => navigate("/book")}
-        >
+        <button type="button" className="back-btn-modern" onClick={() => navigate("/book")}>
           <FaArrowLeft className="back-icon" />
           <span>Go Back</span>
         </button>
 
-        <div className='book-details-layout'>
-          <div className='book-cover-section'>
-            <div className='book-cover-wrapper'>
-              <img 
-                src={book?.cover_img} 
-                alt="Book cover" 
-                className="book-cover-image"
-              />
+        <div className="book-details-layout">
+          {/* Left - Book Cover */}
+          <div className="book-cover-section">
+            <div className="book-cover-wrapper">
+              <img src={book?.cover_img} alt="Book cover" className="book-cover-image" />
             </div>
           </div>
-          
-          <div className='book-info-section'>
-            <div className='book-header'>
-              <h1 className='book-title'>{book?.title}</h1>
+
+          {/* Right - Book Info */}
+          <div className="book-info-section">
+            <div className="book-header">
+              <h1 className="book-title">{book?.title}</h1>
             </div>
-            <div className='book-description-card'>
-              <h3 className='section-title'>Description</h3>
-              <p className='book-description'>{book?.description}</p>
+            <div className="book-description-card">
+              <h3 className="section-title">Description</h3>
+              <p className="book-description">{book?.description}</p>
             </div>
-            <div className='book-metadata'>
-              <div className='metadata-item'>
-                <div className='metadata-header'>
-                  <FaMapMarkerAlt className='metadata-icon' />
-                  <span className='metadata-label'>Subject Places</span>
+            <div className="book-metadata">
+              <div className="metadata-item">
+                <div className="metadata-header">
+                  <FaMapMarkerAlt className="metadata-icon" />
+                  <span className="metadata-label">Subject Places</span>
                 </div>
-                <p className='metadata-value'>{book?.subject_places}</p>
+                <p className="metadata-value">{book?.subject_places}</p>
               </div>
-              <div className='metadata-item'>
-                <div className='metadata-header'>
-                  <FaClock className='metadata-icon' />
-                  <span className='metadata-label'>Subject Times</span>
+              <div className="metadata-item">
+                <div className="metadata-header">
+                  <FaClock className="metadata-icon" />
+                  <span className="metadata-label">Subject Times</span>
                 </div>
-                <p className='metadata-value'>{book?.subject_times}</p>
+                <p className="metadata-value">{book?.subject_times}</p>
               </div>
-              <div className='metadata-item'>
-                <div className='metadata-header'>
-                  <FaTag className='metadata-icon' />
-                  <span className='metadata-label'>Subjects</span>
+              <div className="metadata-item">
+                <div className="metadata-header">
+                  <FaTag className="metadata-icon" />
+                  <span className="metadata-label">Subjects</span>
                 </div>
-                <p className='metadata-value'>{book?.subjects && book.subjects.join(', ')}</p>
+                <p className="metadata-value">
+                  {book?.subjects && book.subjects.join(", ")}
+                </p>
               </div>
             </div>
           </div>
         </div>
 
-        {/* Recommended Section */}
-        <div style={{marginTop: '3rem'}}>
-          <h2 style={{fontWeight:700, fontSize:'1.5rem', marginBottom:'1.5rem'}}>Recommended / More Like This</h2>
+        {/* ✅ Recommended / More Like This Section */}
+        <div className="recommended-section">
+          <h2 className="recommended-title">Recommended / More Like This</h2>
           {relatedBooks.length > 0 ? (
-            <div className="booklist-content grid">
+            <div className="booklist-content">
               {relatedBooks.map((item, idx) => (
                 <div key={item.key || idx} className="booklist-item">
-                  <a href={`/book/${item.key.replace('/works/', '')}`} style={{textDecoration:'none', color:'inherit'}}>
-                    <img src={item.cover_id ? `https://covers.openlibrary.org/b/id/${item.cover_id}-L.jpg` : coverImg} alt={item.title} style={{width:'120px',height:'180px',objectFit:'cover',borderRadius:'8px',boxShadow:'0 2px 8px rgba(0,0,0,0.08)'}} />
-                    <div style={{marginTop:'0.5rem',fontWeight:600}}>{item.title}</div>
+                  <a
+                    href={`/book/${item.key.replace("/works/", "")}`}
+                    style={{ textDecoration: "none", color: "inherit" }}
+                  >
+                    <img
+                      src={
+                        item.cover_id
+                          ? `https://covers.openlibrary.org/b/id/${item.cover_id}-L.jpg`
+                          : coverImg
+                      }
+                      alt={item.title}
+                      className="booklist-image"
+                    />
+                    <div className="booklist-title">{item.title}</div>
                   </a>
                 </div>
               ))}
             </div>
           ) : (
-            <div>No recommendations found.</div>
+            <div className="no-recommendation">No recommendations found.</div>
           )}
         </div>
       </div>
 
+      {/* ✅ STYLES */}
       <style jsx>{`
         .book-details-modern {
           min-height: 100vh;
@@ -172,10 +183,6 @@ const BookDetails = () => {
           box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
 
-        .back-icon {
-          font-size: 0.875rem;
-        }
-
         .book-details-layout {
           display: grid;
           grid-template-columns: 1fr;
@@ -190,40 +197,21 @@ const BookDetails = () => {
           }
         }
 
-        @media (min-width: 1024px) {
-          .book-details-layout {
-            grid-template-columns: 350px 1fr;
-            gap: 5rem;
-          }
-        }
-
-        .book-cover-section {
-          display: flex;
-          justify-content: center;
-        }
-
         .book-cover-wrapper {
-          width: 100%;
-          max-width: 300px;
           background-color: white;
           border-radius: 0.75rem;
           padding: 1.5rem;
-          box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05), 0 10px 25px rgba(0, 0, 0, 0.1);
+          box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05),
+            0 10px 25px rgba(0, 0, 0, 0.1);
           border: 1px solid #f1f5f9;
-        }
-
-        @media (min-width: 768px) {
-          .book-cover-wrapper {
-            position: sticky;
-            top: 2rem;
-          }
+          max-width: 300px;
+          margin: 0 auto;
         }
 
         .book-cover-image {
           width: 100%;
           height: auto;
           border-radius: 0.5rem;
-          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
         }
 
         .book-info-section {
@@ -232,87 +220,78 @@ const BookDetails = () => {
           gap: 2rem;
         }
 
-        .book-header {
-          background-color: white;
-          padding: 2rem;
-          border-radius: 0.75rem;
-          box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-          border: 1px solid #f1f5f9;
-        }
-
         .book-title {
           font-size: 2rem;
           font-weight: 700;
           color: #1e293b;
-          margin: 0;
-          line-height: 1.2;
-        }
-
-        @media (min-width: 768px) {
-          .book-title {
-            font-size: 2.5rem;
-          }
-        }
-
-        .book-description-card {
-          background-color: white;
-          padding: 2rem;
-          border-radius: 0.75rem;
-          box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-          border: 1px solid #f1f5f9;
-        }
-
-        .section-title {
-          font-size: 1.25rem;
-          font-weight: 600;
-          color: #334155;
-          margin: 0 0 1rem 0;
         }
 
         .book-description {
-          font-size: 1rem;
-          line-height: 1.7;
           color: #64748b;
-          margin: 0;
+          line-height: 1.7;
         }
 
-        .book-metadata {
-          display: flex;
-          flex-direction: column;
+        /* ✅ Recommended Section Styles */
+        .recommended-section {
+          margin-top: 3rem;
+        }
+
+        .recommended-title {
+          font-weight: 700;
+          font-size: 1.5rem;
+          margin-bottom: 1.5rem;
+          color: #1e293b;
+        }
+
+        .booklist-content {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
           gap: 1.5rem;
         }
 
-        .metadata-item {
+        .booklist-item {
           background-color: white;
-          padding: 1.5rem;
-          border-radius: 0.75rem;
-          box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
           border: 1px solid #f1f5f9;
+          border-radius: 0.75rem;
+          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+          transition: transform 0.25s ease, box-shadow 0.25s ease;
+          padding: 1rem;
+          text-align: center;
         }
 
-        .metadata-header {
-          display: flex;
-          align-items: center;
-          gap: 0.75rem;
+        .booklist-item:hover {
+          transform: translateY(-5px);
+          box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+        }
+
+        .booklist-image {
+          width: 100%;
+          height: 200px;
+          object-fit: cover;
+          border-radius: 0.5rem;
           margin-bottom: 0.75rem;
         }
 
-        .metadata-icon {
-          font-size: 1rem;
-          color: #6366f1;
-        }
-
-        .metadata-label {
+        .booklist-title {
           font-weight: 600;
+          font-size: 0.95rem;
           color: #334155;
-          font-size: 0.875rem;
+          line-height: 1.3;
         }
 
-        .metadata-value {
-          font-size: 1.5rem;
-          line-height: 1.6;
+        @media (max-width: 600px) {
+          .booklist-content {
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+          }
+          .booklist-image {
+            height: 160px;
+          }
+        }
+
+        .no-recommendation {
           color: #64748b;
-          margin: 0;
+          font-size: 1rem;
         }
 
         @keyframes fadeInUp {
@@ -323,16 +302,6 @@ const BookDetails = () => {
           to {
             opacity: 1;
             transform: translateY(0);
-          }
-        }
-
-        @media (prefers-reduced-motion: reduce) {
-          .book-details-layout {
-            animation: none;
-          }
-          
-          .back-btn-modern {
-            transition: none;
           }
         }
       `}</style>

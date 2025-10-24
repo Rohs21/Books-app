@@ -15,8 +15,25 @@ const Header = () => {
                             Our comprehensive search engine helps you find exactly what you're looking for, 
                             whether it's a specific title, author, or genre that catches your interest.
                         </p>
-                        {/* Only show SearchForm in hero on Home page, not duplicated at top */}
-                        {window.location.pathname === '/' && <SearchForm />}
+                        
+                        {/* Only show SearchForm in hero on Home page */}
+                        {window.location.pathname === '/' && (
+                            <>
+                                <SearchForm />
+                                <div className="search-suggestions">
+                                    <h3>Popular Searches</h3>
+                                    <div className="suggestion-tags">
+                                        <span>Batman</span>
+                                        <span>Superman</span>
+                                        <span>Harry Potter</span>
+                                        <span>Lord of the Rings</span>
+                                        <span>Marvel</span>
+                                        <span>DC Comics</span>
+                                    </div>
+                                </div>
+                            </>
+                        )}
+                        
                         <div className='header-stats'>
                             <div className='stat-item'>
                                 <span className='stat-number'>2M+</span>

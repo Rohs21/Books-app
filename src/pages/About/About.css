@@ -48,7 +48,7 @@
 }
 
 .container {
-  max-width: 1200px;
+  max-width: 1400px;
   margin: 0 auto;
   padding: 0 2rem;
 }
@@ -475,6 +475,8 @@
   }
   
   .creator-profile {
+    margin-top: -78px;
+    margin-bottom: 176px;
     flex-direction: column;
     text-align: center;
   }

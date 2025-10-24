@@ -1,15 +1,16 @@
 /* ---------------- NAVBAR BASE ---------------- */
 .navbar {
   padding: 1.8rem 0;
-  background: rgba(255, 255, 255, 0.85); /* glass background */
+  background: rgba(255, 255, 255, 0.95);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   border-bottom: 1px solid rgba(0, 0, 0, 0.08);
   position: sticky;
   top: 0;
-  z-index: 1000;
-  transition: transform 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease;
+  z-index: 10000;
+  transition: all 0.3s ease-in-out;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+  width: 100%;
 }
 
 /* Scroll hide/show */
@@ -28,6 +29,7 @@
   padding: 0 3rem;
   max-width: 1400px;
   margin: 0 auto;
+  position: relative;
 }
 
 /* ---------------- BRAND ---------------- */
@@ -42,6 +44,7 @@
   -webkit-text-fill-color: transparent;
   letter-spacing: -0.5px;
   transition: all 0.4s ease;
+  text-decoration: none;
 }
 
 .navbar-brand:hover {
@@ -59,19 +62,7 @@
   transform: rotate(360deg) scale(1.05);
 }
 
-/* ---------------- TOGGLER ---------------- */
-.navbar-toggler-btn {
-  display: none;
-  background: none;
-  border: none;
-  font-size: 2.5rem;
-  color: var(--black-color);
-  cursor: pointer;
-  z-index: 1001;
-  transition: color 0.3s ease;
-}
-
-/* ---------------- LINKS ---------------- */
+/* ---------------- NAVIGATION (Always Horizontal) ---------------- */
 .navbar-collapse {
   display: flex;
   align-items: center;
@@ -80,6 +71,10 @@
 .navbar-nav {
   display: flex;
   gap: 3.2rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  align-items: center;
 }
 
 .nav-item {
@@ -87,12 +82,15 @@
 }
 
 .nav-link {
-  color: #1e293b; /* slate-900 for professional tone */
+  color: #1e293b;
   font-size: 1.6rem;
   font-weight: 600;
   padding: 0.8rem 0;
   position: relative;
   transition: all 0.3s ease;
+  text-decoration: none;
+  display: block;
+  white-space: nowrap;
 }
 
 /* Gradient underline */
@@ -118,66 +116,86 @@
   transform-origin: left;
 }
 
-/* ---------------- RESPONSIVE ---------------- */
-@media screen and (max-width: 1200px) {
-  .navbar-toggler-btn {
-    display: block;
-  }
-
-  .navbar-collapse {
-    position: fixed;
-    top: 0;
-    right: -350px;
-    height: 100vh;
-    width: 350px;
-    background: rgba(255, 255, 255, 0.9);
-    backdrop-filter: blur(14px);
-    flex-direction: column;
-    align-items: flex-start;
-    padding: 8rem 3rem 3rem;
-    transition: right 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    box-shadow: -4px 0 20px rgba(0, 0, 0, 0.08);
-  }
-
-  .show-navbar-collapse {
-    right: 0;
-  }
-
-  .navbar-nav {
-    flex-direction: column;
-    width: 100%;
-    gap: 2rem;
-  }
-
-  .nav-link {
-    font-size: 1.8rem;
-    width: 100%;
-    padding: 1rem;
-    border-radius: 8px;
-    transition: all 0.3s ease;
-  }
-
-  .nav-link:hover {
-    background-color: rgba(37, 99, 235, 0.08);
-    padding-left: 1.5rem;
-  }
-}
-
-@media screen and (max-width: 768px) {
+/* ---------------- TABLET RESPONSIVE ---------------- */
+@media screen and (max-width: 1024px) {
   .navbar-content {
     padding: 0 2rem;
   }
 
+  .navbar-nav {
+    gap: 2.5rem;
+  }
+}
+
+/* ---------------- MOBILE RESPONSIVE ---------------- */
+@media screen and (max-width: 768px) {
+  .navbar {
+    padding: 1.2rem 0;
+  }
+
+  .navbar-content {
+    padding: 0 1.5rem;
+  }
+
   .navbar-brand {
-    font-size: 2.2rem;
+    font-size: 2rem;
   }
 
   .navbar-brand img {
-    width: 48px;
+    width: 42px;
+    margin-right: 0.8rem;
   }
 
-  .navbar-collapse {
-    width: 280px;
+  .navbar-nav {
+    gap: 2rem;
+  }
+
+  .nav-link {
+    font-size: 1.4rem;
+    padding: 0.6rem 0;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .navbar-content {
+    padding: 0 1rem;
+  }
+
+  .navbar-brand {
+    font-size: 1.6rem;
+  }
+
+  .navbar-brand img {
+    width: 36px;
+    margin-right: 0.6rem;
+  }
+
+  .navbar-nav {
+    gap: 1.5rem;
+  }
+
+  .nav-link {
+    font-size: 1.3rem;
+    padding: 0.5rem 0;
+  }
+}
+
+@media screen and (max-width: 360px) {
+  .navbar-brand {
+    font-size: 1.4rem;
+  }
+
+  .navbar-brand img {
+    width: 32px;
+    margin-right: 0.5rem;
+  }
+
+  .navbar-nav {
+    gap: 1.2rem;
+  }
+
+  .nav-link {
+    font-size: 1.2rem;
   }
 }
 
@@ -186,8 +204,20 @@
   .navbar,
   .navbar-brand,
   .navbar-brand img,
-  .nav-link,
-  .navbar-collapse {
+  .nav-link {
     transition: none;
   }
+}
+
+/* Focus styles for accessibility */
+.nav-link:focus-visible {
+  outline: 2px solid #2563eb;
+  outline-offset: 4px;
+  border-radius: 4px;
+}
+
+.navbar-brand:focus-visible {
+  outline: 2px solid #2563eb;
+  outline-offset: 4px;
+  border-radius: 4px;
 }

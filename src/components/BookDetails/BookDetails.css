@@ -32,9 +32,46 @@
 
 .book-details-content {
   display: grid;
+  grid-template-columns: repeat(2, 1fr);
   gap: 4rem;
   opacity: 0;
   animation: slideUp 0.8s ease-out 0.3s forwards;
+}
+
+@media screen and (max-width: 968px) {
+  .book-details {
+    padding: 6rem 1.5rem;
+  }
+  
+  .book-details-content {
+    grid-template-columns: 1fr;
+    gap: 3rem;
+  }
+
+  .book-details-img {
+    max-height: 500px;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .book-details {
+    padding: 4rem 1rem;
+    font-size: 1.1rem;
+  }
+
+  .book-details-info {
+    padding: 1.5rem;
+    font-size: 1.1rem;
+  }
+
+  .book-details-img {
+    max-height: 400px;
+  }
+
+  .back-btn {
+    padding: 0.8rem 1.5rem;
+    font-size: 1.2rem;
+  }
 }
 
 .book-details-img {

@@ -23,6 +23,37 @@
   box-sizing: border-box;
 }
 
+.container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 15px;
+}
+
+@media screen and (max-width: 1200px) {
+  .container {
+    max-width: 960px;
+  }
+}
+
+@media screen and (max-width: 992px) {
+  .container {
+    max-width: 720px;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .container {
+    max-width: 540px;
+  }
+}
+
+@media screen and (max-width: 576px) {
+  .container {
+    padding: 0 10px;
+  }
+}
+
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -37,6 +68,19 @@
 html {
   font-size: 10px;
   scroll-behavior: smooth;
+}
+
+/* Responsive font sizes */
+@media screen and (max-width: 768px) {
+  html {
+    font-size: 9px;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  html {
+    font-size: 8px;
+  }
 }
 
 body {
